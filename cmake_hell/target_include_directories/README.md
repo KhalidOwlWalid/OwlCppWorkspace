@@ -18,7 +18,7 @@ If your target (e.g. an executable or other library) is **used** by other target
 ### Example 1
 For this example, you can checkout start checking out from the following commit:
 ```
-git checkout 660a647
+git checkout 45eae60
 ```
 
 The tree directory looks as follow:
@@ -43,6 +43,25 @@ The compiler can resolve the path without any additional include directories sin
 
 ## Example 2
 
+The tree directory for this example looks as follows:
+```shell
+├── core
+│   └── core.hpp
+├── example.cpp
+└── utils
+    └── logger.hpp
+```
+
+Now, in this case, we have re-arranged the directory to be a bit more organized. Now, the previous code, would not compile anymore since we have moved the header file into each of their own respective directories. Hence, a slight tweak is required to make the code work.
+
+```cpp
+#include "utils/logger.hpp"
+#include "core/core.hpp"
+
+// Your code goes here
+```
+
+This now works, but imagine, if you re-arrange this file, but then 100s of files depends on it?! It would be insane for you to change the relative path one-by-one unless you're an idiot (sorry, no offense, its just not optimal!). So, what's the fix?
 
 ## Using the target_include_directories
 

@@ -1,5 +1,5 @@
-#include "tmp/logger.hpp"
-#include "tmp/core.hpp"
+#include "utils/logger.hpp"
+#include "core/core.hpp"
 
 int main() {
     LOG("Inside log");
