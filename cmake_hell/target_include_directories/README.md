@@ -43,6 +43,10 @@ The compiler can resolve the path without any additional include directories sin
 
 ## Example 2
 
+```shell
+git checkout e0ccd2d
+```
+
 The tree directory for this example looks as follows:
 ```shell
 ├── core
@@ -61,7 +65,62 @@ Now, in this case, we have re-arranged the directory to be a bit more organized.
 // Your code goes here
 ```
 
-This now works, but imagine, if you re-arrange this file, but then 100s of files depends on it?! It would be insane for you to change the relative path one-by-one unless you're an idiot (sorry, no offense, its just not optimal!). So, what's the fix?
+This now works, but imagine, if you re-arrange this file, but then 100s of files depends on it?! It would be insane for you to change the relative path one-by-one unless. Honestly, this is not a problem at all, because sometimes, being **explicit** on which header file you want the compiler to use avoids the ambiguity of not knowing which header file does the compiler use. However, for the sake of this discussion, what's the fix, in this case?
 
-## Using the target_include_directories
+## Using the include_directories
 
+To avoid having to manually change the relative path for each files, you can simply tell cmake where the include header files are!
+
+```cmake
+...
+...
+
+add_executable(main example.cpp)
+
+include_directories(
+    ${PROJECT_SOURCE_DIR}/core
+    ${PROJECT_SOURCE_DIR}/utils
+)
+```
+
+You can then change your source file to use the following instead:
+```cpp
+#include "logger.hpp"
+#include "core.hpp"
+
+// Your code goes here
+```
+
+Now, your compiler should just then be able to find the files easily even when you re-arrange the directory (just be sure to update the CMakelists.txt file if you made changes to the directory path).
+
+#### Potential issues with the above implementation
+
+While there are no definite solution to this problem, it is worth for you to note some potential issues you might face by using the approach above.
+
+If for any reason, you are using an external library header, and you have included them as part of your `include_directories` in the cmake file:
+
+```cmake
+...
+...
+
+add_executable(main example.cpp)
+
+include_directories(
+    ${PROJECT_SOURCE_DIR}/core
+    ${PROJECT_SOURCE_DIR}/utils
+    ${EXTERNAL_LIBRARY_HEADER_FILES}
+)
+```
+
+If both the local and external header file has the same name, the compiler will always opt for the first one (e.g it would use the one from your core include directory instead of external include directory).
+
+**Solution 1**
+
+To avoid this issue, you can simply change your header file to be something a bit more unique to your application.
+
+Example:
+If you are developing a gui application, you may name your header file as `gui_core.hpp` to avoid having conflicts on the `core.hpp` filename.
+
+**Solution 2**
+
+Just use relative path for files local to your workspace. This is a lot easier and having an explicit path allows you to avoid any sort of ambiguity in your application and avoid potential future issues!
