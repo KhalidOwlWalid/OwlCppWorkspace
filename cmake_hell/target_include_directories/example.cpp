@@ -1,12 +1,8 @@
-#include <iostream>
-#include "utils/logger.hpp"
-
-void say_hello(){
-    std::cout << "Hello, from example!\n";
-}
+#include "tmp/logger.hpp"
+#include "tmp/core.hpp"
 
 int main() {
-    say_hello();
     LOG("Inside log");
+    LOG_CORE("Inside log core");
     return 0;
 }
