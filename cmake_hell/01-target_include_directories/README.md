@@ -72,7 +72,7 @@ This now works, but imagine, if you re-arrange this file, but then 100s of files
 ## Example 3 - Using the include_directories
 
 ```shell
-git checkout 966e5c3
+git checkout 3b7effa
 ```
 
 To avoid having to manually change the relative path for each files, you can simply tell cmake where the include header files are!
