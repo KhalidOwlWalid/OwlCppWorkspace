@@ -8,6 +8,8 @@ where you might be dealing with a lot of header files, and you probably have not
 Imagine having to change each relative path one by one in different C++ implementation and just hoping that you do not break anything!
 
 ### External libraries
+TODO(Khalid): Make this example as a separate thing. Create a static (.a) and dynamic (.so) library to show it can be used?
+
 If your project depends on external libraries, you need to specify the include directories for those libraries so the compiler can find the header files.
 
 ### Visbility for other targets
@@ -15,7 +17,7 @@ If your target (e.g. an executable or other library) is **used** by other target
 
 ## Not using target_include_directories
 
-### Example 1
+### Example 1 - Using relative path to source directory
 For this example, you can checkout start checking out from the following commit:
 ```
 git checkout 45eae60
@@ -29,7 +31,7 @@ The tree directory looks as follow:
     └── logger.hpp
 ```
 
-In this example, in the CMakelists.txt file, I did not include any of the header file using the `target_include_directories` or `include_directories`
+In this example, in the `CMakelists.txt` file, I did not include any of the header file using the `target_include_directories` or `include_directories`
 function. For a small project, you can always get away by simply including the file as a relative path as shown below:
 
 ```cpp
@@ -41,7 +43,7 @@ function. For a small project, you can always get away by simply including the f
 
 The compiler can resolve the path without any additional include directories since it is relative to the `PROJECT_SOURCE_DIR`. No big deal!
 
-## Example 2
+## Example 2 - Files in different directory
 
 ```shell
 git checkout e0ccd2d
@@ -65,9 +67,9 @@ Now, in this case, we have re-arranged the directory to be a bit more organized.
 // Your code goes here
 ```
 
-This now works, but imagine, if you re-arrange this file, but then 100s of files depends on it?! It would be insane for you to change the relative path one-by-one unless. Honestly, this is not a problem at all, because sometimes, being **explicit** on which header file you want the compiler to use avoids the ambiguity of not knowing which header file does the compiler use. However, for the sake of this discussion, what's the fix, in this case?
+This now works, but imagine, if you re-arrange this file, but then 100s of files depends on it?! It would be insane for you to change the relative path one-by-one. Honestly, this is not a problem at all, because sometimes, being **explicit** on which header file you want the compiler to use avoids the ambiguity of not knowing which header file does the compiler use. However, for the sake of this discussion, what's the fix, in this case?
 
-## Using the include_directories
+## Example 3 - Using the include_directories
 
 ```shell
 git checkout 966e5c3
@@ -97,7 +99,7 @@ You can then change your source file to use the following instead:
 
 Now, your compiler should just then be able to find the files easily even when you re-arrange the directory (just be sure to update the CMakelists.txt file if you made changes to the directory path).
 
-#### Potential issues with the above implementation
+### Potential issues with the above implementation
 
 While there are no definite solution to this problem, it is worth for you to note some potential issues you might face by using the approach above.
 
@@ -118,13 +120,21 @@ include_directories(
 
 If both the local and external header file has the same name, the compiler will always opt for the first one (e.g it would use the one from your core include directory instead of external include directory).
 
-**Solution 1**
+#### Solution 1
 
 To avoid this issue, you can simply change your header file to be something a bit more unique to your application.
 
 Example:
-If you are developing a gui application, you may name your header file as `gui_core.hpp` to avoid having conflicts on the `core.hpp` filename.
+If you are developing a gui application under a company name, X, you may name your header file as `x_gui_core.hpp` to avoid having conflicts on the `gui_core.hpp` filename. Using namespace helps a lot in avoiding potential conflicts in the future!
 
-**Solution 2**
+#### Solution 2
 
 Just use relative path for files local to your workspace. This is a lot easier and having an explicit path allows you to avoid any sort of ambiguity in your application and avoid potential future issues!
+
+**Note** One thing that I like to do when using headers from my local workspace and external libraries is to use different symbols (e.g. using " " for local headers and < > for external headers)
+
+## Example 4 - Using target_include_directories
+
+Target specific unlike include_directories which applies to all targets included before/after the cmakelists command which is add_subdirectory. target_include_directories requires you to specify which target you want to include for.
+
+TODO: Include example on how this can be used
