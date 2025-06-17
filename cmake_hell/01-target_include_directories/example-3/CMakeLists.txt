@@ -3,7 +3,7 @@ project(example VERSION 0.1.0 LANGUAGES C CXX)
 
 add_executable(main example.cpp)
 
-include_directories(
+target_include_directories(main PUBLIC
     ${PROJECT_SOURCE_DIR}/core
     ${PROJECT_SOURCE_DIR}/utils
 )

@@ -137,4 +137,23 @@ Just use relative path for files local to your workspace. This is a lot easier a
 
 Target specific unlike include_directories which applies to all targets included before/after the cmakelists command which is add_subdirectory. target_include_directories requires you to specify which target you want to include for.
 
-TODO: Include example on how this can be used
+In the `CMakeLists.txt` file, change the `include_directories` to use `target_include_directories` which can be seen below:
+
+```cmake
+...
+add_executable(main example.cpp)
+
+target_include_directories(main PUBLIC
+    ${PROJECT_SOURCE_DIR}/core
+    ${PROJECT_SOURCE_DIR}/utils
+)
+```
+
+This will still give the same result as before when using `include_directories`. However, there are advantages of using `target_include_directories` over `include_directories`. These advantages includes [[source]](https://stackoverflow.com/questions/70494485/why-not-use-include-directories-in-cmake):
+
+- Limiting the scope of include directories
+- "Inheritance" / Ease of recombination
+
+To make it easier to understand, we will jump directly to an example which would showcase the usage and advantages of doing so.
+
+Source for PUBLIC vs PRIVATE vs INTERFACE: https://leimao.github.io/blog/CMake-Public-Private-Interface/
