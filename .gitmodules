@@ -1,3 +1,6 @@
 [submodule "cpp_concepts"]
 	path = cpp_concepts
 	url = git@github.com:KhalidOwlWalid/cpp_concepts.git
+[submodule "cmake-hell"]
+	path = cmake-hell
+	url = git@github.com:KhalidOwlWalid/cmake-hell.git
