@@ -10,6 +10,8 @@
 #include "imgui.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_opengl3.h"
+#include "implot.h"
+#include "implot_internal.h"
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #if defined(IMGUI_IMPL_OPENGL_ES2)
@@ -128,12 +130,13 @@ int main(int, char**)
     // - Our Emscripten build process allows embedding fonts to be accessible at runtime from the "fonts/" folder. See Makefile.emscripten for details.
     //style.FontSizeBase = 20.0f;
     //io.Fonts->AddFontDefault();
-    //io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\segoeui.ttf");
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/DroidSans.ttf");
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf");
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf");
     //ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf");
-    //IM_ASSERT(font != nullptr);
+    // IM_ASSERT(font != nullptr);
+    style.FontSizeBase = 10.0f;
+    ImFont* font = io.Fonts->AddFontFromFileTTF("/home/khalidowlwalid/Documents/KhalidOWlWalid-Github-Projects/OwlCppWorkspace/imgui_test/misc/fonts/DroidSans.ttf");
 
     // Our state
     bool show_demo_window = true;
@@ -178,6 +181,9 @@ int main(int, char**)
 
         // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
         if (show_demo_window)
+            ImPlot::CreateContext();
+            ImPlot::ShowDemoWindow(&show_demo_window);
+
             ImGui::ShowDemoWindow(&show_demo_window);
 
         // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.

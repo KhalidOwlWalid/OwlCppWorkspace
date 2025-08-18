@@ -16,6 +16,9 @@ target_include_directories(glad PUBLIC ${PROJECT_SOURCE_DIR}/include)
 set(exec_name ${PROJECT_NAME}_exec)
 
 set(IMGUI_SRC
+    imgui/src/implot_demo.cpp
+    imgui/src/implot_items.cpp
+    imgui/src/implot.cpp
     imgui/src/imgui.cpp
     imgui/src/imgui_draw.cpp
     imgui/src/imgui_impl_glfw.cpp
@@ -24,9 +27,6 @@ set(IMGUI_SRC
     imgui/src/imgui_tables.cpp
     imgui/src/imgui_widgets.cpp
     imgui/src/imgui_demo.cpp
-    # imgui/src/implot_demo.cpp
-    # imgui/src/implot_items.cpp
-    # imgui/src/implot.cpp
 )
 add_executable(${exec_name} main_sdl2_opengl3.cpp ${IMGUI_SRC})
 
